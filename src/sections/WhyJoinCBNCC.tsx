@@ -1,4 +1,4 @@
-import { ArrowUpRight, Handshake, Rocket, Sparkles, Trophy } from "lucide-react";
+import { ArrowUpRight, Bolt, Globe2, Handshake, Rocket, Sparkles, Trophy, Waves } from "lucide-react";
 import type { CSSProperties, PointerEvent } from "react";
 import type { LucideIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
@@ -12,32 +12,46 @@ type Benefit = {
 
 const benefits: Benefit[] = [
   {
-    title: "Build Real-World Skills",
+    title: "Learn by Building",
     description:
-      "Work on impactful projects, explore emerging technologies, and gain practical experience that goes beyond theory.",
+      "Create real-world projects, experiment with emerging technologies, and gain practical experience that extends beyond traditional learning.",
     Icon: Rocket,
     accent: "cyan"
   },
   {
-    title: "Thrive in a Strong Community",
+    title: "Grow Together",
     description:
-      "Connect with passionate developers, designers, and innovators who inspire, support, and grow together.",
+      "Join a vibrant community of developers, designers, innovators, and technology enthusiasts who support and inspire each other.",
     Icon: Handshake,
     accent: "green"
   },
   {
-    title: "Accelerate Your Growth",
+    title: "Push Your Limits",
     description:
-      "Participate in workshops, hackathons, coding challenges, and peer-led sessions designed to sharpen your technical expertise.",
+      "Participate in hackathons, workshops, coding challenges, and technical events that accelerate your growth and problem-solving abilities.",
+    Icon: Bolt,
+    accent: "amber"
+  },
+  {
+    title: "Create Impact",
+    description:
+      "Lead initiatives, organize events, contribute to meaningful projects, and leave a lasting impact on the community.",
     Icon: Sparkles,
     accent: "violet"
   },
   {
-    title: "Unlock Opportunities",
+    title: "Industry Connect",
     description:
-      "Take on leadership roles, represent the community at events, compete in national competitions, and expand your professional network.",
+      "Engage with professionals, mentors, alumni, and industry leaders while gaining exposure to the latest technology trends.",
+    Icon: Globe2,
+    accent: "blue"
+  },
+  {
+    title: "Showcase Excellence",
+    description:
+      "Build a strong portfolio, demonstrate your skills through projects and competitions, and stand out as a future-ready innovator.",
     Icon: Trophy,
-    accent: "amber"
+    accent: "rose"
   }
 ];
 
@@ -110,9 +124,10 @@ export function WhyJoinCBNCC() {
               tabIndex={0}
             >
               <div className="benefit-card__shine" aria-hidden="true" />
+              <Waves className="benefit-card__signal" aria-hidden="true" size={132} strokeWidth={1.1} />
               <div className="benefit-card__topline">
                 <span className="benefit-card__icon" aria-hidden="true">
-                  <Icon size={26} strokeWidth={2.2} />
+                  <Icon size={34} strokeWidth={2.05} />
                 </span>
                 <ArrowUpRight className="benefit-card__arrow" aria-hidden="true" size={22} />
               </div>
