@@ -159,11 +159,17 @@ select {
 .why-join__grid {
   display: flex;
   align-items: stretch;
-  width: min(calc(100% - 2rem), 1420px);
+  width: min(calc(100% - clamp(2rem, 4vw, 4rem)), 1480px);
   margin: clamp(3.5rem, 6vw, 5.5rem) auto clamp(4rem, 6vw, 6.5rem);
-  border: 1px solid rgba(0, 0, 0, 0.86);
-  background-color: rgba(0, 0, 0, 0.86);
+  border: 1px solid rgba(0, 0, 0, 0.34);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.34);
   gap: 1px;
+  padding: 1px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 22px 54px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
 
 .benefit-card {
@@ -173,9 +179,9 @@ select {
   min-height: clamp(23rem, 28vw, 27rem);
   flex-direction: column;
   position: relative;
-  padding: clamp(1.05rem, 1.55vw, 1.45rem);
+  padding: clamp(1.25rem, 1.9vw, 1.8rem);
   overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.68);
+  background-color: rgba(255, 255, 255, 0.5);
   transition: flex 520ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -198,9 +204,9 @@ select {
   width: clamp(3rem, 4.2vw, 3.65rem);
   height: clamp(3rem, 4.2vw, 3.65rem);
   place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  background-color: var(--panel-strong);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.76);
   color: var(--ink);
 }
 
@@ -273,6 +279,7 @@ select {
   .why-join__grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(calc(100% - 2rem), 920px);
   }
 
   .benefit-card {
@@ -355,6 +362,7 @@ select {
   .why-join__grid {
     width: min(calc(100% - 1.5rem), 32rem);
     margin-block: 2.5rem 4rem;
+    border-radius: 8px;
   }
 
   .benefit-card {
