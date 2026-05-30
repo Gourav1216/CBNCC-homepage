@@ -1,5 +1,5 @@
 :root {
-  color: #10131c;
+  color: #000000;
   background-color: #ecebec;
   font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
@@ -7,16 +7,9 @@
   -webkit-font-smoothing: antialiased;
   --page-bg: #ecebec;
   --ink: #000000;
-  --muted: #000000;
-  --line: rgba(16, 19, 28, 0.14);
-  --panel: rgba(255, 255, 255, 0.56);
+  --line: rgba(0, 0, 0, 0.14);
+  --panel: rgba(255, 255, 255, 0.58);
   --panel-strong: rgba(255, 255, 255, 0.82);
-  --cyan: #0077b6;
-  --green: #168767;
-  --violet: #6350d9;
-  --amber: #b57408;
-  --blue: #2458d6;
-  --rose: #c83d70;
 }
 
 * {
@@ -33,6 +26,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: var(--page-bg);
+  color: var(--ink);
 }
 
 button,
@@ -44,19 +38,29 @@ select {
 
 .why-join {
   min-height: 100vh;
-  padding: clamp(4rem, 6vw, 6.5rem) clamp(1rem, 4vw, 2.5rem);
   background-color: var(--page-bg);
+  background-image: url("/BG.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .why-join__shell {
   width: min(100%, 1420px);
   margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2.5rem) clamp(4rem, 6vw, 6.5rem);
+}
+
+.why-join__header-wrap {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .why-join__header {
-  max-width: 920px;
-  margin: 0 auto clamp(2.25rem, 4vw, 3.6rem);
-  text-align: center;
+  width: min(50vw, 760px);
+  text-align: left;
 }
 
 .why-join__eyebrow {
@@ -69,14 +73,14 @@ select {
   border: 1px solid var(--line);
   border-radius: 999px;
   background-color: rgba(255, 255, 255, 0.55);
-  color: #000000;
+  color: var(--ink);
   font-size: 0.86rem;
   font-weight: 700;
   letter-spacing: 0;
 }
 
 .why-join__eyebrow svg {
-  color: #000000;
+  color: var(--ink);
 }
 
 .why-join h1,
@@ -97,13 +101,13 @@ select {
 }
 
 .why-join h1 span {
-  color: #000000;
+  color: var(--ink);
 }
 
 .why-join__intro {
   max-width: 720px;
-  margin: clamp(1.15rem, 2.5vw, 1.5rem) auto 0;
-  color: var(--muted);
+  margin: clamp(1.15rem, 2.5vw, 1.5rem) 0 0;
+  color: var(--ink);
   font-size: clamp(1.02rem, 1.55vw, 1.24rem);
   line-height: 1.7;
   font-weight: 500;
@@ -114,7 +118,7 @@ select {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
   width: min(100%, 700px);
-  margin: clamp(1.5rem, 3vw, 2.1rem) auto 0;
+  margin: clamp(1.5rem, 3vw, 2.1rem) 0 0;
 }
 
 .why-join__stat {
@@ -131,7 +135,7 @@ select {
 }
 
 .why-join__stat svg {
-  color: #000000;
+  color: var(--ink);
 }
 
 .why-join__stat strong {
@@ -142,7 +146,7 @@ select {
 
 .why-join__stat span {
   grid-column: 1 / -1;
-  color: var(--muted);
+  color: var(--ink);
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -152,13 +156,12 @@ select {
 .why-join__grid {
   display: flex;
   align-items: stretch;
-  border: 1px solid rgba(16, 19, 28, 0.86);
-  background-color: rgba(16, 19, 28, 0.86);
+  border: 1px solid rgba(0, 0, 0, 0.86);
+  background-color: rgba(0, 0, 0, 0.86);
   gap: 1px;
 }
 
 .benefit-card {
-  --card-accent: var(--cyan);
   display: flex;
   flex: 1 1 0;
   min-width: 0;
@@ -166,33 +169,13 @@ select {
   flex-direction: column;
   position: relative;
   padding: clamp(1.05rem, 1.55vw, 1.45rem);
-  background-color: rgba(255, 255, 255, 0.58);
   overflow: hidden;
+  background-color: var(--panel);
   transition: flex 520ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.benefit-card[data-accent="green"] {
-  --card-accent: var(--green);
-}
-
-.benefit-card[data-accent="violet"] {
-  --card-accent: var(--violet);
-}
-
-.benefit-card[data-accent="amber"] {
-  --card-accent: var(--amber);
-}
-
-.benefit-card[data-accent="blue"] {
-  --card-accent: var(--blue);
-}
-
-.benefit-card[data-accent="rose"] {
-  --card-accent: var(--rose);
-}
-
 .benefit-card__number {
-  color: #000000;
+  color: var(--ink);
   font-size: clamp(1rem, 1.45vw, 1.3rem);
   font-weight: 800;
 }
@@ -210,14 +193,14 @@ select {
   width: clamp(3rem, 4.2vw, 3.65rem);
   height: clamp(3rem, 4.2vw, 3.65rem);
   place-items: center;
-  border: 1px solid color-mix(in srgb, var(--card-accent) 42%, rgba(255, 255, 255, 0.7));
+  border: 1px solid var(--line);
   border-radius: 0;
   background-color: var(--panel-strong);
-  color: #000000;
+  color: var(--ink);
 }
 
 .benefit-card__arrow {
-  color: #000000;
+  color: var(--ink);
 }
 
 .benefit-card h2 {
@@ -247,7 +230,7 @@ select {
 .benefit-card p {
   max-width: 24rem;
   margin: clamp(1rem, 1.45vw, 1.35rem) 0 0;
-  color: var(--muted);
+  color: var(--ink);
   font-size: clamp(0.84rem, 0.92vw, 0.96rem);
   line-height: 1.52;
   font-weight: 500;
@@ -280,11 +263,21 @@ select {
 @media (max-width: 760px) {
   .why-join {
     min-height: auto;
-    padding: 4rem 1rem;
+    background-position: 31% center;
+  }
+
+  .why-join__shell {
+    padding: 0 1rem 4rem;
+  }
+
+  .why-join__header-wrap {
+    min-height: 100vh;
+    justify-content: flex-start;
   }
 
   .why-join__header {
-    text-align: left;
+    width: 100%;
+    padding-block: 4rem;
   }
 
   .why-join h1 {

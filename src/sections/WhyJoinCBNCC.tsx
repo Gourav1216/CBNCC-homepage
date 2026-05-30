@@ -81,26 +81,28 @@ export function WhyJoinCBNCC() {
   return (
     <section className="why-join" aria-labelledby="why-join-title">
       <div className="why-join__shell">
-        <div className="why-join__header">
-          <p className="why-join__eyebrow">
-            <Sparkles size={16} aria-hidden="true" />
-            Student tech community
-          </p>
-          <h1 id="why-join-title">
-            Why Join <span>CBNCC?</span>
-          </h1>
-          <p className="why-join__intro">
-            At CBNCC, learning goes beyond classrooms. Build real projects, collaborate with ambitious innovators,
-            and become part of a community shaping the future of technology.
-          </p>
-          <div className="why-join__stats" aria-label="CBNCC highlights">
-            {stats.map(({ value, label, Icon }) => (
-              <div className="why-join__stat" key={label}>
-                <Icon size={19} aria-hidden="true" />
-                <strong>{value}</strong>
-                <span>{label}</span>
-              </div>
-            ))}
+        <div className="why-join__header-wrap">
+          <div className="why-join__header">
+            <p className="why-join__eyebrow">
+              <Sparkles size={16} aria-hidden="true" />
+              Student tech community
+            </p>
+            <h1 id="why-join-title">
+              Why Join <span>CBNCC?</span>
+            </h1>
+            <p className="why-join__intro">
+              At CBNCC, learning goes beyond classrooms. Build real projects, collaborate with ambitious innovators,
+              and become part of a community shaping the future of technology.
+            </p>
+            <div className="why-join__stats" aria-label="CBNCC highlights">
+              {stats.map(({ value, label, Icon }) => (
+                <div className="why-join__stat" key={label}>
+                  <Icon size={19} aria-hidden="true" />
+                  <strong>{value}</strong>
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
