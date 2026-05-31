@@ -109,14 +109,14 @@ select {
 .why-join__frame-meta--left {
   left: 1.25rem;
   top: -6px;
-  background-color: #f6f5f6;
+  background-color: var(--page-bg);
   padding: 0 0.5rem;
 }
 
 .why-join__frame-meta--right {
   right: 1.25rem;
   bottom: -6px;
-  background-color: #f6f5f6;
+  background-color: var(--page-bg);
   padding: 0 0.5rem;
 }
 
@@ -129,7 +129,7 @@ select {
   justify-content: center;
   align-items: center;
   padding: clamp(1.5rem, 2.5vw, 2.5rem) clamp(1.5rem, 2.5vw, 2.5rem);
-  background-color: var(--panel);
+  background-color: transparent;
   border: 1px solid var(--line);
   border-radius: 20px;
   z-index: 1;
@@ -349,7 +349,7 @@ select {
   display: flex;
   flex-direction: column;
   padding: clamp(1.5rem, 2.5vw, 2.5rem) clamp(1.5rem, 2.5vw, 2.5rem);
-  background-color: var(--panel);
+  background-color: transparent;
   border: 1px solid var(--line);
   border-radius: 20px;
   z-index: 1;
