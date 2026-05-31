@@ -80,59 +80,115 @@ const stats = [
 export function WhyJoinCBNCC() {
   return (
     <section className="why-join" aria-labelledby="why-join-title">
-      <div className="why-join__shell">
-        <div className="why-join__header-wrap">
-          <div className="why-join__header">
-            <p className="why-join__eyebrow">
-              <Sparkles size={16} aria-hidden="true" />
-              Student tech community
-            </p>
-            <h1 id="why-join-title">
-              Why Join <span>CBNCC?</span>
-            </h1>
-            <p className="why-join__intro">
-              At CBNCC, learning goes beyond classrooms. Build real projects, collaborate with ambitious innovators,
-              and become part of a community shaping the future of technology.
-            </p>
-            <div className="why-join__stats" aria-label="CBNCC highlights">
-              {stats.map(({ value, label, Icon }) => (
-                <div className="why-join__stat" key={label}>
-                  <Icon size={19} aria-hidden="true" />
-                  <strong>{value}</strong>
-                  <span>{label}</span>
+        <div className="why-join__hero">
+          {/* Creative Tech Border Frame for First Page */}
+          <div className="why-join__border-frame" aria-hidden="true">
+            <span className="why-join__frame-corner why-join__frame-corner--tl"></span>
+            <span className="why-join__frame-corner why-join__frame-corner--tr"></span>
+            <span className="why-join__frame-corner why-join__frame-corner--bl"></span>
+            <span className="why-join__frame-corner why-join__frame-corner--br"></span>
+            <div className="why-join__frame-meta why-join__frame-meta--left">CBNCC // SYSTEM ACTIVE</div>
+            <div className="why-join__frame-meta why-join__frame-meta--right">BUILD. INSPIRE. IMPACT.</div>
+          </div>
+
+          <div className="why-join__hero-grid">
+            {/* Left Column: Robot Character (Closeup) */}
+            <div className="why-join__hero-left">
+              <div className="why-join__image-wrapper">
+                <img
+                  src="/cyborg_character_upscaled_upscaled.png"
+                  alt="Cyborg Character"
+                  className="why-join__character why-join__character--closeup"
+                />
+              </div>
+            </div>
+
+            {/* Right Column: Text & Stats */}
+            <div className="why-join__hero-right">
+              {/* Top Header */}
+              <div className="why-join__hero-header">
+                <div className="why-join__eyebrow">
+                  <Sparkles size={16} aria-hidden="true" />
+                  Student tech community
                 </div>
-              ))}
+                <h1 id="why-join-title" className="why-join__hero-title">
+                  WHY JOIN <br /> <span>CBNCC?</span>
+                </h1>
+              </div>
+              {/* Stats Row */}
+              <div className="why-join__hero-stats-row">
+                <div className="why-join__stat">
+                  <Braces size={19} aria-hidden="true" />
+                  <strong>25+</strong>
+                  <span>live builds</span>
+                </div>
+                <div className="why-join__stat">
+                  <CalendarClock size={19} aria-hidden="true" />
+                  <strong>12+</strong>
+                  <span>tech events</span>
+                </div>
+                <div className="why-join__stat">
+                  <UsersRound size={19} aria-hidden="true" />
+                  <strong>500+</strong>
+                  <span>community reach</span>
+                </div>
+              </div>
+
+              {/* Cards Row */}
+              <div className="why-join__intro-cards-row">
+                <div className="why-join__intro-card">
+                  <p>
+                    At CBNCC, learning goes beyond standard classrooms. We focus on active learning, building real-world projects, and fostering an environment of technical experimentation.
+                  </p>
+                </div>
+                <div className="why-join__intro-card">
+                  <p>
+                    Collaborate with highly ambitious innovators and technology enthusiasts. Push your limits in coding challenges, hackathons, and shape the future of tech together.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="why-join__grid" aria-label="CBNCC member benefits">
-          {benefits.map(({ title, lines, description, Icon, accent }, index) => (
-            <article
-              className="benefit-card"
-              data-accent={accent}
-              key={title}
-              tabIndex={0}
-            >
-              <span className="benefit-card__number" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div className="benefit-card__topline">
-                <span className="benefit-card__icon" aria-hidden="true">
-                  <Icon size={34} strokeWidth={2.05} />
+        <div className="why-join__grid-container">
+          {/* Creative Tech Border Frame for Cards */}
+          <div className="why-join__border-frame" aria-hidden="true">
+            <span className="why-join__frame-corner why-join__frame-corner--tl"></span>
+            <span className="why-join__frame-corner why-join__frame-corner--tr"></span>
+            <span className="why-join__frame-corner why-join__frame-corner--bl"></span>
+            <span className="why-join__frame-corner why-join__frame-corner--br"></span>
+            <div className="why-join__frame-meta why-join__frame-meta--left">CBNCC // MEMBER BENEFITS</div>
+            <div className="why-join__frame-meta why-join__frame-meta--right">GROW. SHARE. LEAD.</div>
+          </div>
+
+          <div className="why-join__grid" aria-label="CBNCC member benefits">
+            {benefits.map(({ title, lines, description, Icon, accent }, index) => (
+              <article
+                className="benefit-card"
+                data-accent={accent}
+                key={title}
+                tabIndex={0}
+              >
+                <span className="benefit-card__number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
                 </span>
-                <ArrowUpRight className="benefit-card__arrow" aria-hidden="true" size={22} />
-              </div>
-              <h2>
-                {lines.map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
-              </h2>
-              <p>{description}</p>
-            </article>
-          ))}
+                <div className="benefit-card__topline">
+                  <span className="benefit-card__icon" aria-hidden="true">
+                    <Icon size={34} strokeWidth={2.05} />
+                  </span>
+                  <ArrowUpRight className="benefit-card__arrow" aria-hidden="true" size={22} />
+                </div>
+                <h2>
+                  {lines.map((line) => (
+                    <span key={line}>{line}</span>
+                  ))}
+                </h2>
+                <p>{description}</p>
+              </article>
+            ))}
+          </div>
         </div>
-      </div>
     </section>
   );
 }
