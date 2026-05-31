@@ -175,7 +175,7 @@ export function WhyJoinCBNCC() {
                 </span>
                 <div className="benefit-card__topline">
                   <span className="benefit-card__icon" aria-hidden="true">
-                    <Icon size={34} strokeWidth={2.05} />
+                    <Icon size={26} strokeWidth={2.05} />
                   </span>
                   <ArrowUpRight className="benefit-card__arrow" aria-hidden="true" size={22} />
                 </div>
