@@ -213,7 +213,6 @@ export function WhyJoinCBNCC() {
       {/* PC View: Scroll-Linked Arc Timeline */}
       <div className="why-join__timeline-container" ref={containerRef}>
         <div className="why-join__timeline-pin">
-          <div className="why-join__timeline-brand">CBNCC</div>
           <div className="why-join__timeline-eyebrow">Our Benefits</div>
           <div className="why-join__timeline-arc"></div>
 
