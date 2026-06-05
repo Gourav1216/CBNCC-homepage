@@ -281,11 +281,11 @@ select {
   transform: translateX(-50%);
   z-index: 5;
   font-family: "Space Grotesk", sans-serif;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 0.22em;
+  font-size: clamp(14px, 1.6vw, 18px);
+  color: #ffffff;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
 }
 
