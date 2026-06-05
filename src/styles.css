@@ -344,11 +344,11 @@ select {
 }
 
 .why-join__timeline-step-num {
-  font-family: 'Instrument Serif', serif;
-  font-weight: 400;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
   line-height: 1;
   white-space: nowrap;
-  font-size: calc(52px + 64px * var(--c, 0));
+  font-size: calc(36px + 44px * var(--c, 0));
   color: rgba(255, 255, 255, calc(0.25 + 0.75 * var(--c, 0)));
   transition: font-size 150ms ease, color 150ms ease;
 }
@@ -364,14 +364,13 @@ select {
 }
 
 .why-join__timeline-step-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(26px, 3.5vw, 42px);
-  font-weight: 400;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(20px, 2.5vw, 32px);
+  font-weight: 700;
   color: #ffffff;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   line-height: 1.1;
   white-space: nowrap;
-  font-style: italic;
 }
 
 .why-join__timeline-step-desc {
