@@ -75,8 +75,8 @@ export function WhyJoinCBNCC() {
         {/* Wireframe Cross Background */}
         <div className="why-join__hero-bg" aria-hidden="true">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="50%" x2="100%" y2="50%" stroke="rgba(0, 0, 0, 0.03)" strokeDasharray="4 4" strokeWidth="1" />
-            <line x1="50%" y1="0" x2="50%" y2="100%" stroke="rgba(0, 0, 0, 0.03)" strokeDasharray="4 4" strokeWidth="1" />
+            <line x1="0" y1="50%" x2="100%" y2="50%" stroke="rgba(255, 255, 255, 0.05)" strokeDasharray="4 4" strokeWidth="1" />
+            <line x1="50%" y1="0" x2="50%" y2="100%" stroke="rgba(255, 255, 255, 0.05)" strokeDasharray="4 4" strokeWidth="1" />
           </svg>
         </div>
 
@@ -87,8 +87,8 @@ export function WhyJoinCBNCC() {
               text="Student tech community"
               speed={2}
               className="why-join__eyebrow-text"
-              color="#000000"
-              shineColor="#ffffff"
+              color="#ffffff"
+              shineColor="#a1a1aa"
             />
           </div>
           <h1 id="why-join-title" className="why-join__hero-title">
