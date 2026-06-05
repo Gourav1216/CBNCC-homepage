@@ -429,14 +429,13 @@ select {
     text-align: center;
   }
 
-  .why-join__stat svg {
-    display: none; /* Hide icons in stats cards on mobile */
-  }
-
   .why-join__stat-top {
     font-size: 1.15rem;
     font-weight: 800;
     line-height: 1.1;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 
   .why-join__stat-label {

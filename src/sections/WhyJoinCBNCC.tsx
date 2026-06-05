@@ -104,23 +104,23 @@ export function WhyJoinCBNCC() {
             <div className="why-join__stat">
               <span className="why-join__stat-top">
                 <Braces size={16} aria-hidden="true" />
-                <strong>200</strong>
+                <strong>25+</strong>
               </span>
-              <span className="why-join__stat-label">Stats</span>
+              <span className="why-join__stat-label">live builds</span>
             </div>
             <div className="why-join__stat">
               <span className="why-join__stat-top">
                 <CalendarClock size={16} aria-hidden="true" />
-                <strong>20+</strong>
+                <strong>12+</strong>
               </span>
-              <span className="why-join__stat-label">Resources</span>
+              <span className="why-join__stat-label">tech events</span>
             </div>
             <div className="why-join__stat">
               <span className="why-join__stat-top">
                 <UsersRound size={16} aria-hidden="true" />
-                <strong>12+</strong>
+                <strong>500+</strong>
               </span>
-              <span className="why-join__stat-label">Followers</span>
+              <span className="why-join__stat-label">community reach</span>
             </div>
           </div>
         </div>
