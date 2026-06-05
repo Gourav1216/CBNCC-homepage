@@ -71,8 +71,11 @@ const benefits: Benefit[] = [
 export function WhyJoinCBNCC() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<HTMLDivElement[]>([]);
+  const mobileStepsRef = useRef<HTMLDivElement[]>([]);
 
+  // ── Desktop arc timeline ──────────────────────────────────────────
   useEffect(() => {
     const section = containerRef.current;
     if (!section) return;
@@ -82,40 +85,30 @@ export function WhyJoinCBNCC() {
     if (N === 0) return;
 
     const SPACING = 360 / N;
+    const getRadius = () => window.innerHeight * 0.4;
 
-    const getRadius = () => {
-      return window.innerHeight * 0.4;
-    };
-
-    const paint = (progress: number) => {
+    const paintDesktop = (progress: number) => {
       const offset = progress * (N - 1) * SPACING;
       const r = getRadius();
-
       for (let i = 0; i < N; i++) {
         const el = steps[i];
         if (!el) continue;
-
         let a = i * SPACING - offset;
         while (a > 180) a -= 360;
         while (a <= -180) a += 360;
         const d = Math.abs(a);
-
-        // closeness: 1 when active (a = 0), drops to 0 at SPACING/2 distance
         const closeness = Math.max(0, 1 - d / (SPACING / 2));
-
         const rad = (a * Math.PI) / 180;
         const x = r * Math.cos(rad);
         const y = r * Math.sin(rad);
-
         const tilt = -a * (1 - closeness);
-
         el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${tilt.toFixed(2)}deg)`;
         el.style.opacity = Math.max(0, 1 - d / 130).toFixed(3);
         el.style.setProperty("--c", closeness.toFixed(3));
       }
     };
 
-    const getProgress = () => {
+    const getDesktopProgress = () => {
       const rect = section.getBoundingClientRect();
       const scrolled = -rect.top;
       const range = section.offsetHeight - window.innerHeight;
@@ -123,28 +116,68 @@ export function WhyJoinCBNCC() {
       return Math.max(0, Math.min(1, scrolled / range));
     };
 
-    let pending = false;
-    const tick = () => {
+    let pendingDesktop = false;
+    const tickDesktop = () => {
       if (window.innerWidth <= 1024) return;
-      if (pending) return;
-      pending = true;
+      if (pendingDesktop) return;
+      pendingDesktop = true;
       requestAnimationFrame(() => {
-        paint(getProgress());
-        pending = false;
+        paintDesktop(getDesktopProgress());
+        pendingDesktop = false;
       });
     };
 
-    window.addEventListener("scroll", tick, { passive: true });
-    window.addEventListener("touchmove", tick, { passive: true });
-    window.addEventListener("resize", tick, { passive: true });
-
-    // Initial paint
-    paint(0);
+    window.addEventListener("scroll", tickDesktop, { passive: true });
+    window.addEventListener("resize", tickDesktop, { passive: true });
+    paintDesktop(0);
 
     return () => {
-      window.removeEventListener("scroll", tick);
-      window.removeEventListener("touchmove", tick);
-      window.removeEventListener("resize", tick);
+      window.removeEventListener("scroll", tickDesktop);
+      window.removeEventListener("resize", tickDesktop);
+    };
+  }, []);
+
+  // ── Mobile vertical timeline ──────────────────────────────────────
+  useEffect(() => {
+    const section = mobileContainerRef.current;
+    if (!section) return;
+
+    const steps = mobileStepsRef.current;
+    const N = steps.length;
+    if (N === 0) return;
+
+    const paintMobile = () => {
+      const vh = window.innerHeight;
+      for (let i = 0; i < N; i++) {
+        const el = steps[i];
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        // distance from vertical center of viewport (0 = centred)
+        const d = Math.abs(center - vh * 0.5);
+        const closeness = Math.max(0, 1 - d / (vh * 0.35));
+        el.style.setProperty("--mc", closeness.toFixed(3));
+      }
+    };
+
+    let pendingMobile = false;
+    const tickMobile = () => {
+      if (window.innerWidth > 1024) return;
+      if (pendingMobile) return;
+      pendingMobile = true;
+      requestAnimationFrame(() => {
+        paintMobile();
+        pendingMobile = false;
+      });
+    };
+
+    window.addEventListener("scroll", tickMobile, { passive: true });
+    window.addEventListener("resize", tickMobile, { passive: true });
+    paintMobile();
+
+    return () => {
+      window.removeEventListener("scroll", tickMobile);
+      window.removeEventListener("resize", tickMobile);
     };
   }, []);
 
@@ -239,38 +272,30 @@ export function WhyJoinCBNCC() {
         </div>
       </div>
 
-      <div className="why-join__grid-container">
-        <div className="why-join__grid" aria-label="CBNCC member benefits">
-          {benefits.map(({ title, description, Icon, accent }, index) => (
-            <article
+      {/* Mobile View: Vertical Scroll-Linked Timeline */}
+      <div className="why-join__mobile-timeline" ref={mobileContainerRef}>
+        <div className="why-join__mobile-timeline-header">Our Benefits</div>
+        <div className="why-join__mobile-timeline-track">
+          <div className="why-join__mobile-timeline-line" />
+          {benefits.map(({ title, description, Icon }, index) => (
+            <div
               key={title}
-              className={`benefit-card ${expandedIndex === index ? "is-expanded" : ""}`}
-              data-accent={accent}
-              tabIndex={0}
-              onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setExpandedIndex(expandedIndex === index ? null : index);
-                }
-              }}
+              className="why-join__mobile-step"
+              ref={(el) => { if (el) mobileStepsRef.current[index] = el; }}
             >
-              <div className="benefit-card__header">
-                <span className="benefit-card__number" aria-hidden="true">
+              <div className="why-join__mobile-step-left">
+                <div className="why-join__mobile-step-dot">
+                  <Icon size={14} strokeWidth={2} />
+                </div>
+              </div>
+              <div className="why-join__mobile-step-right">
+                <span className="why-join__mobile-step-num">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <ArrowUpRight className="benefit-card__arrow" aria-hidden="true" size={18} />
+                <h4 className="why-join__mobile-step-title">{title}</h4>
+                <p className="why-join__mobile-step-desc">{description}</p>
               </div>
-              <div className="benefit-card__icon-wrapper">
-                <span className="benefit-card__icon" aria-hidden="true">
-                  <Icon size={22} strokeWidth={2} />
-                </span>
-              </div>
-              <h2>
-                {title}
-              </h2>
-              <p>{description}</p>
-            </article>
+            </div>
           ))}
         </div>
       </div>

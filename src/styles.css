@@ -377,6 +377,121 @@ select {
   white-space: normal;
 }
 
+/* Mobile Vertical Scroll-Linked Timeline */
+.why-join__mobile-timeline {
+  display: none; /* shown only on mobile via media query */
+  flex-direction: column;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.why-join__mobile-timeline-header {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(11px, 3vw, 14px);
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.why-join__mobile-timeline-track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.why-join__mobile-timeline-line {
+  position: absolute;
+  left: 19px;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 15%,
+    rgba(255, 255, 255, 0.18) 85%,
+    transparent 100%
+  );
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.why-join__mobile-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.4rem 0;
+  --mc: 0;
+  transition: all 200ms ease;
+}
+
+.why-join__mobile-step-left {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.why-join__mobile-step-dot {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, calc(0.04 + 0.12 * var(--mc)));
+  border: 1.5px solid rgba(255, 255, 255, calc(0.15 + 0.65 * var(--mc)));
+  box-shadow:
+    0 0 calc(8px + 16px * var(--mc)) rgba(255, 255, 255, calc(0.05 + 0.25 * var(--mc))),
+    inset 0 0 8px rgba(255, 255, 255, calc(0.02 + 0.08 * var(--mc)));
+  color: rgba(255, 255, 255, calc(0.4 + 0.6 * var(--mc)));
+  transition: all 200ms ease;
+}
+
+.why-join__mobile-step-right {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 6px;
+  flex: 1;
+}
+
+.why-join__mobile-step-num {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 800;
+  font-size: calc(12px + 6px * var(--mc));
+  color: rgba(255, 255, 255, calc(0.3 + 0.7 * var(--mc)));
+  line-height: 1;
+  transition: font-size 200ms ease, color 200ms ease;
+}
+
+.why-join__mobile-step-title {
+  font-family: "Sora", sans-serif;
+  font-size: calc(15px + 4px * var(--mc));
+  font-weight: 700;
+  color: rgba(255, 255, 255, calc(0.55 + 0.45 * var(--mc)));
+  line-height: 1.15;
+  margin: 2px 0 0 0;
+  letter-spacing: -0.01em;
+  transition: font-size 200ms ease, color 200ms ease;
+}
+
+.why-join__mobile-step-desc {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, calc(0.0 + 0.65 * var(--mc)));
+  margin: 0;
+  transition: color 200ms ease, opacity 200ms ease;
+  max-height: calc(200px * var(--mc));
+  overflow: hidden;
+}
+
 /* Grid Container */
 .why-join__grid-container {
   display: none; /* Hidden on desktop */
@@ -552,13 +667,19 @@ select {
     padding: 2.5rem 1.75rem;
   }
 
+  /* Hide desktop arc timeline on mobile */
   .why-join__timeline-container {
     display: none !important;
   }
 
+  /* Hide desktop grid cards on mobile */
   .why-join__grid-container {
-    display: block !important;
-    padding: 0;
+    display: none !important;
+  }
+
+  /* Show the mobile vertical timeline */
+  .why-join__mobile-timeline {
+    display: flex !important;
   }
 
   .why-join__grid {
