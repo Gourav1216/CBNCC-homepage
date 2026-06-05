@@ -21,52 +21,7 @@ type Benefit = {
   accent: string;
 };
 
-const TerminalMockup = () => (
-  <div className="bento-graphic bento-graphic--terminal" aria-hidden="true">
-    <div className="terminal-header">
-      <span className="terminal-dot red"></span>
-      <span className="terminal-dot yellow"></span>
-      <span className="terminal-dot green"></span>
-      <span className="terminal-file">cbncc.ts</span>
-    </div>
-    <div className="terminal-code">
-      <span className="code-keyword">const</span> <span className="code-name">cbncc</span> = {'{'}<br />
-      &nbsp;&nbsp;focus: <span className="code-string">"Build"</span>,<br />
-      &nbsp;&nbsp;impact: <span className="code-string">"RealWorld"</span><br />
-      {'};'}
-    </div>
-  </div>
-);
 
-const ContributionGraphMockup = () => (
-  <div className="bento-graphic bento-graphic--graph" aria-hidden="true">
-    <div className="graph-grid">
-      {Array.from({ length: 18 }).map((_, i) => (
-        <div
-          key={i}
-          className="graph-cell"
-          style={{
-            opacity: [0.15, 0.45, 0.8, 1, 0.2, 0.6, 0.9, 0.3, 0.75][i % 9],
-          }}
-        />
-      ))}
-    </div>
-    <span className="graph-label">12+ Events Completed</span>
-  </div>
-);
-
-const ProjectCardMockup = () => (
-  <div className="bento-graphic bento-graphic--project" aria-hidden="true">
-    <div className="project-badge">
-      <span className="badge-dot"></span> DEPLOYED
-    </div>
-    <div className="project-title">CBNCC Web App</div>
-    <div className="project-stats-row">
-      <span className="project-stat">⭐ 1.2k</span>
-      <span className="project-stat">🚀 v2.0</span>
-    </div>
-  </div>
-);
 
 const benefits: Benefit[] = [
   {
@@ -194,29 +149,21 @@ export function WhyJoinCBNCC() {
                 }
               }}
             >
-              <div className="benefit-card__content-wrapper">
-                <div className="benefit-card__text-content">
-                  <div className="benefit-card__header">
-                    <span className="benefit-card__number" aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <ArrowUpRight className="benefit-card__arrow" aria-hidden="true" size={18} />
-                  </div>
-                  <div className="benefit-card__icon-wrapper">
-                    <span className="benefit-card__icon" aria-hidden="true">
-                      <Icon size={22} strokeWidth={2} />
-                    </span>
-                  </div>
-                  <h2>
-                    {title}
-                  </h2>
-                  <p>{description}</p>
-                </div>
-
-                {index === 0 && <TerminalMockup />}
-                {index === 3 && <ContributionGraphMockup />}
-                {index === 5 && <ProjectCardMockup />}
+              <div className="benefit-card__header">
+                <span className="benefit-card__number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <ArrowUpRight className="benefit-card__arrow" aria-hidden="true" size={18} />
               </div>
+              <div className="benefit-card__icon-wrapper">
+                <span className="benefit-card__icon" aria-hidden="true">
+                  <Icon size={22} strokeWidth={2} />
+                </span>
+              </div>
+              <h2>
+                {title}
+              </h2>
+              <p>{description}</p>
             </article>
           ))}
         </div>
