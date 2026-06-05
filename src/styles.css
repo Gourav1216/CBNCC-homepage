@@ -105,7 +105,7 @@ select {
   min-height: 100vh;
   background-color: var(--page-bg);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 2vw, 2rem);
   display: flex;
   flex-direction: column;
