@@ -664,124 +664,83 @@ select {
 
 @media (max-width: 1024px) {
   .why-join {
-    padding: 2.5rem 1.75rem;
+    padding: 2.5rem 1.25rem;
   }
 
-  /* Hide desktop arc timeline on mobile */
+  /* Show the arc timeline on mobile — same as desktop */
   .why-join__timeline-container {
-    display: none !important;
+    display: flex !important;
   }
 
-  /* Hide desktop grid cards on mobile */
+  /* Hide desktop-only grid cards on mobile */
   .why-join__grid-container {
     display: none !important;
   }
 
-  /* Show the mobile vertical timeline */
+  /* Hide old mobile vertical timeline */
   .why-join__mobile-timeline {
-    display: flex !important;
+    display: none !important;
   }
 
-  .why-join__grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 0.75rem;
-    background-color: transparent;
-    padding: 0;
-    overflow: visible;
-    border: none;
+  /* ── Arc circle: scale down for mobile ── */
+  .why-join__timeline-arc {
+    /* Radius is ~33vw set in JS; arc div is 2× radius */
+    width: min(66vw, 56vh);
+    height: min(66vw, 56vh);
+    /* Keep left edge of circle barely off left edge */
+    left: calc(min(33vw, 28vh));
   }
 
-  /* Color Accent Mappings (used in mobile view glows) */
-  .benefit-card[data-accent="cyan"] {
-    --accent-color: #06b6d4;
-    --accent-rgb: 6, 182, 212;
-  }
-  .benefit-card[data-accent="green"] {
-    --accent-color: #22c55e;
-    --accent-rgb: 34, 197, 94;
-  }
-  .benefit-card[data-accent="amber"] {
-    --accent-color: #f59e0b;
-    --accent-rgb: 245, 158, 11;
-  }
-  .benefit-card[data-accent="violet"] {
-    --accent-color: #8b5cf6;
-    --accent-rgb: 139, 92, 246;
-  }
-  .benefit-card[data-accent="blue"] {
-    --accent-color: #3b82f6;
-    --accent-rgb: 59, 130, 246;
-  }
-  .benefit-card[data-accent="rose"] {
-    --accent-color: #f43f5e;
-    --accent-rgb: 244, 63, 94;
+  /* Arc center anchor point for steps matches above */
+  .why-join__timeline-step {
+    left: calc(min(33vw, 28vh));
   }
 
-  .benefit-card {
-    grid-column: span 1 !important;
-    min-height: auto;
-    background-color: #121214;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 1.25rem 1.15rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* ── Eyebrow ── */
+  .why-join__timeline-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    top: 3vh;
   }
 
-  .benefit-card__arrow {
-    display: none;
+  /* ── Step content layout ── */
+  .why-join__timeline-step-content {
+    gap: 10px;
+    flex-wrap: nowrap;
+    align-items: center;
   }
 
-  .benefit-card__icon-wrapper {
-    display: flex;
-    margin-bottom: 0.75rem;
+  /* ── Step dot ── */
+  .why-join__timeline-step-dot {
+    width: 8px;
+    height: 8px;
   }
 
-  .benefit-card__header {
-    margin-bottom: 0.5rem;
+  /* ── Step number ── */
+  .why-join__timeline-step-num {
+    font-size: calc(20px + 20px * var(--c, 0));
   }
 
-  .benefit-card h2 {
-    font-size: 0.95rem;
-    margin: 0.25rem 0 0.35rem 0;
+  /* ── Step info box ── */
+  .why-join__timeline-step-info {
+    max-width: min(160px, 38vw);
+    gap: 4px;
   }
 
-  .benefit-card p {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: none;
-    font-size: 0.8rem;
-    line-height: 1.4;
-    color: rgba(255, 255, 255, 0.6);
+  /* ── Step title ── */
+  .why-join__timeline-step-title {
+    font-size: clamp(12px, 3.5vw, 17px);
+    white-space: normal;
+    word-break: break-word;
+    letter-spacing: -0.01em;
   }
 
-  /* Expanded/Active state for mobile */
-  .benefit-card.is-expanded {
-    background-color: #0d0d0f !important;
-    border-color: var(--accent-color) !important;
-    box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.2) !important;
-    outline: none;
-    z-index: 5;
-    transform: scale(1.02);
-  }
-
-  .benefit-card.is-expanded .benefit-card__icon {
-    background-color: rgba(var(--accent-rgb), 0.15) !important;
-    border-color: rgba(var(--accent-rgb), 0.4) !important;
-    color: var(--accent-color) !important;
-  }
-
-  .benefit-card.is-expanded .benefit-card__number {
-    color: var(--accent-color);
-  }
-
-  /* Dim non-expanded cards */
-  .why-join__grid:has(.is-expanded) .benefit-card:not(.is-expanded) {
-    opacity: 0.45;
-    filter: grayscale(0.2) blur(0.3px);
-    transform: scale(0.98);
+  /* ── Step description ── */
+  .why-join__timeline-step-desc {
+    font-size: 11px;
+    line-height: 1.45;
+    width: min(160px, 38vw);
+    color: rgba(255, 255, 255, 0.65);
   }
 }
 
