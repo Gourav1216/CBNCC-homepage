@@ -12,3 +12,5 @@ pnpm-debug.log*
 
 .vscode/
 qa-screenshots/
+
+.vercel
