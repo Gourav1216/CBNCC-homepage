@@ -110,7 +110,7 @@ export function WhyJoinCBNCC() {
         const tilt = -a * (1 - closeness);
 
         el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${tilt.toFixed(2)}deg)`;
-        el.style.opacity = Math.max(0, 1 - d / 110).toFixed(3);
+        el.style.opacity = Math.max(0, 1 - d / 130).toFixed(3);
         el.style.setProperty("--c", closeness.toFixed(3));
       }
     };
