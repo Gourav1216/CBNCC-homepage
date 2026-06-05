@@ -71,6 +71,11 @@ export function WhyJoinCBNCC() {
 
   return (
     <section className="why-join" aria-labelledby="why-join-title">
+      {/* Background Ambient Glow Orbs */}
+      <div className="why-join__glow-orb why-join__glow-orb--1" aria-hidden="true" />
+      <div className="why-join__glow-orb why-join__glow-orb--2" aria-hidden="true" />
+      <div className="why-join__glow-orb why-join__glow-orb--3" aria-hidden="true" />
+
       <div className="why-join__hero">
         {/* Wireframe Cross Background */}
         <div className="why-join__hero-bg" aria-hidden="true">
