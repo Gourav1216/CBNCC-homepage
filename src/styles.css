@@ -492,6 +492,11 @@ select {
   overflow: hidden;
 }
 
+/* Mobile active-content panel (hidden on desktop, shown in @media ≤ 1024px) */
+.why-join__mobile-panel {
+  display: none;
+}
+
 /* Grid Container */
 .why-join__grid-container {
   display: none; /* Hidden on desktop */
@@ -667,80 +672,107 @@ select {
     padding: 2.5rem 1.25rem;
   }
 
-  /* Show the arc timeline on mobile — same as desktop */
+  /* ── Show arc timeline on mobile ── */
   .why-join__timeline-container {
     display: flex !important;
   }
 
-  /* Hide desktop-only grid cards on mobile */
+  /* ── Hide desktop grid ── */
   .why-join__grid-container {
     display: none !important;
   }
 
-  /* Hide old mobile vertical timeline */
+  /* ── Hide old vertical timeline ── */
   .why-join__mobile-timeline {
     display: none !important;
   }
 
-  /* ── Arc circle: scale down for mobile ── */
+  /* ══ SEMI-CIRCLE: move arc center to the LEFT EDGE (x=0, y=50vh)
+        The left half gets clipped by overflow:hidden on the pin.
+        Diameter = 110vw  →  radius ~= 55vw  ─  set in JS as innerWidth*0.55
+        This makes the visible arc span nearly the full viewport height. ══ */
   .why-join__timeline-arc {
-    /* Radius is ~33vw set in JS; arc div is 2× radius */
-    width: min(66vw, 56vh);
-    height: min(66vw, 56vh);
-    /* Keep left edge of circle barely off left edge */
-    left: calc(min(33vw, 28vh));
+    width: 110vw;
+    height: 110vw;
+    left: 0;            /* center-X = 0 (left edge) */
+    top: 50%;
+    /* keep existing transform: translate(-50%,-50%) → center locked at (0, 50%) */
   }
 
-  /* Arc center anchor point for steps matches above */
+  /* ── Step origin matches arc center ── */
   .why-join__timeline-step {
-    left: calc(min(33vw, 28vh));
+    left: 0;
+    top: 50%;
   }
 
-  /* ── Eyebrow ── */
+  /* ── On mobile: ONLY show the glowing dot on the arc.
+        Number and info text are hidden; content is in the panel instead. ── */
+  .why-join__timeline-step-num,
+  .why-join__timeline-step-info {
+    display: none !important;
+  }
+
+  /* Bigger, more visible dot on the arc */
+  .why-join__timeline-step-dot {
+    width: 14px;
+    height: 14px;
+    box-shadow:
+      0 0 0 3px rgba(255,255,255, calc(0.15 + 0.45 * var(--c, 0))),
+      0 0 22px rgba(255,255,255, calc(0.4 + 0.6 * var(--c, 0))),
+      0 0 50px rgba(255,255,255, calc(0.15 + 0.35 * var(--c, 0)));
+  }
+
+  /* Eyebrow: keep it centered at the top */
   .why-join__timeline-eyebrow {
     font-size: 10px;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
     top: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
-  /* ── Step content layout ── */
-  .why-join__timeline-step-content {
-    gap: 10px;
-    flex-wrap: nowrap;
-    align-items: center;
+  /* ══ ACTIVE CONTENT PANEL ══
+        Positioned on the right half of the screen, vertically centred.
+        JS writes the active step's number/title/desc into it directly. ══ */
+  .why-join__mobile-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: absolute;
+    /* Start just past the 55vw arc radius point, fill the rest of the screen */
+    left: 58vw;
+    top: 50%;
+    transform: translateY(-50%);
+    width: calc(100vw - 58vw - 1.25rem);
+    z-index: 10;
+    pointer-events: none;
   }
 
-  /* ── Step dot ── */
-  .why-join__timeline-step-dot {
-    width: 8px;
-    height: 8px;
+  .m-panel-num {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 900;
+    font-size: clamp(32px, 10vw, 52px);
+    color: #ffffff;
+    line-height: 1;
+    letter-spacing: -0.03em;
   }
 
-  /* ── Step number ── */
-  .why-join__timeline-step-num {
-    font-size: calc(20px + 20px * var(--c, 0));
+  .m-panel-title {
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: clamp(14px, 4.5vw, 20px);
+    color: #ffffff;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
   }
 
-  /* ── Step info box ── */
-  .why-join__timeline-step-info {
-    max-width: min(160px, 38vw);
-    gap: 4px;
-  }
-
-  /* ── Step title ── */
-  .why-join__timeline-step-title {
-    font-size: clamp(12px, 3.5vw, 17px);
-    white-space: normal;
-    word-break: break-word;
-    letter-spacing: -0.01em;
-  }
-
-  /* ── Step description ── */
-  .why-join__timeline-step-desc {
-    font-size: 11px;
-    line-height: 1.45;
-    width: min(160px, 38vw);
-    color: rgba(255, 255, 255, 0.65);
+  .m-panel-desc {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(11px, 3vw, 13px);
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
   }
 }
 

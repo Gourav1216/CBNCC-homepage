@@ -70,8 +70,11 @@ export function WhyJoinCBNCC() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<HTMLDivElement[]>([]);
+  // mobile active-content panel refs
+  const panelNumRef   = useRef<HTMLSpanElement>(null);
+  const panelTitleRef = useRef<HTMLHeadingElement>(null);
+  const panelDescRef  = useRef<HTMLParagraphElement>(null);
 
-  // ── Unified arc timeline — works on both desktop & mobile ──────────
   useEffect(() => {
     const section = containerRef.current;
     if (!section) return;
@@ -82,10 +85,11 @@ export function WhyJoinCBNCC() {
 
     const SPACING = 360 / N;
 
-    // Radius: desktop uses 40vh; mobile uses a smaller value to fit screen
     const getRadius = () => {
       if (window.innerWidth <= 1024) {
-        return Math.min(window.innerWidth * 0.33, window.innerHeight * 0.28);
+        // Semi-circle: radius = ~55% of screen width so diameter ≈ 110vw
+        // This makes it span most of the viewport height too
+        return window.innerWidth * 0.55;
       }
       return window.innerHeight * 0.4;
     };
@@ -93,21 +97,44 @@ export function WhyJoinCBNCC() {
     const paint = (progress: number) => {
       const offset = progress * (N - 1) * SPACING;
       const r = getRadius();
+
+      let maxCloseness = -1;
+      let activeIdx = 0;
+
       for (let i = 0; i < N; i++) {
         const el = steps[i];
         if (!el) continue;
+
         let a = i * SPACING - offset;
         while (a > 180) a -= 360;
         while (a <= -180) a += 360;
         const d = Math.abs(a);
+
         const closeness = Math.max(0, 1 - d / (SPACING / 2));
         const rad = (a * Math.PI) / 180;
         const x = r * Math.cos(rad);
         const y = r * Math.sin(rad);
         const tilt = -a * (1 - closeness);
+
         el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${tilt.toFixed(2)}deg)`;
         el.style.opacity = Math.max(0, 1 - d / 130).toFixed(3);
         el.style.setProperty("--c", closeness.toFixed(3));
+
+        if (closeness > maxCloseness) {
+          maxCloseness = closeness;
+          activeIdx = i;
+        }
+      }
+
+      // Update mobile active-content panel via direct DOM (no re-render)
+      if (window.innerWidth <= 1024) {
+        const b = benefits[activeIdx];
+        if (panelNumRef.current)
+          panelNumRef.current.textContent = String(activeIdx + 1).padStart(2, "0");
+        if (panelTitleRef.current)
+          panelTitleRef.current.textContent = b.title;
+        if (panelDescRef.current)
+          panelDescRef.current.textContent = b.description;
       }
     };
 
@@ -149,11 +176,10 @@ export function WhyJoinCBNCC() {
       <div className="why-join__glow-orb why-join__glow-orb--3" aria-hidden="true" />
 
       <div className="why-join__hero">
-        {/* Wireframe Cross Background */}
         <div className="why-join__hero-bg" aria-hidden="true">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="50%" x2="100%" y2="50%" stroke="rgba(255, 255, 255, 0.05)" strokeDasharray="4 4" strokeWidth="1" />
-            <line x1="50%" y1="0" x2="50%" y2="100%" stroke="rgba(255, 255, 255, 0.05)" strokeDasharray="4 4" strokeWidth="1" />
+            <line x1="0" y1="50%" x2="100%" y2="50%" stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" strokeWidth="1" />
+            <line x1="50%" y1="0" x2="50%" y2="100%" stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" strokeWidth="1" />
           </svg>
         </div>
 
@@ -203,11 +229,18 @@ export function WhyJoinCBNCC() {
         </div>
       </div>
 
-      {/* Scroll-Linked Arc Timeline — shared by desktop & mobile */}
+      {/* Scroll-Linked Arc Timeline */}
       <div className="why-join__timeline-container" ref={containerRef}>
         <div className="why-join__timeline-pin">
           <div className="why-join__timeline-eyebrow">Our Benefits</div>
           <div className="why-join__timeline-arc"></div>
+
+          {/* ── Mobile active-content panel ── */}
+          <div className="why-join__mobile-panel" aria-live="polite">
+            <span className="m-panel-num" ref={panelNumRef}>01</span>
+            <h4 className="m-panel-title" ref={panelTitleRef}>{benefits[0].title}</h4>
+            <p className="m-panel-desc" ref={panelDescRef}>{benefits[0].description}</p>
+          </div>
 
           {benefits.map(({ title, description }, index) => (
             <div
@@ -216,9 +249,11 @@ export function WhyJoinCBNCC() {
               ref={(el) => {
                 if (el) stepsRef.current[index] = el;
               }}
+              aria-label={`${index + 1}. ${title}: ${description}`}
             >
               <div className="why-join__timeline-step-content">
                 <div className="why-join__timeline-step-dot"></div>
+                {/* These are desktop-only — hidden on mobile via CSS */}
                 <span className="why-join__timeline-step-num">
                   {String(index + 1).padStart(2, "0")}
                 </span>
@@ -232,7 +267,7 @@ export function WhyJoinCBNCC() {
         </div>
       </div>
 
-      {/* Desktop-only benefit cards grid (hidden on mobile) */}
+      {/* Desktop-only benefit cards grid */}
       <div className="why-join__grid-container">
         <div className="why-join__grid" aria-label="CBNCC member benefits">
           {benefits.map(({ title, description, Icon, accent }, index) => (
@@ -260,9 +295,7 @@ export function WhyJoinCBNCC() {
                   <Icon size={22} strokeWidth={2} />
                 </span>
               </div>
-              <h2>
-                {title}
-              </h2>
+              <h2>{title}</h2>
               <p>{description}</p>
             </article>
           ))}
