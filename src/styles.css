@@ -281,12 +281,13 @@ select {
   transform: translateX(-50%);
   z-index: 5;
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(14px, 1.6vw, 18px);
+  font-size: clamp(24px, 3.2vw, 42px);
   color: #ffffff;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   font-weight: 700;
   text-align: center;
+  white-space: nowrap;
 }
 
 .why-join__timeline-arc {
@@ -724,7 +725,7 @@ select {
 
   /* Eyebrow: keep it centered at the top */
   .why-join__timeline-eyebrow {
-    font-size: 10px;
+    font-size: clamp(16px, 4.5vw, 24px);
     letter-spacing: 0.22em;
     top: 3vh;
     left: 50%;

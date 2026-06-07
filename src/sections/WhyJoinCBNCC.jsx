@@ -11,17 +11,9 @@ import {
   Trophy,
   UsersRound
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import ShinyText from "../components/ShinyText";
 
-type Benefit = {
-  title: string;
-  description: string;
-  Icon: LucideIcon;
-  accent: string;
-};
-
-const benefits: Benefit[] = [
+const benefits = [
   {
     title: "Learn by Building",
     description:
@@ -67,13 +59,13 @@ const benefits: Benefit[] = [
 ];
 
 export function WhyJoinCBNCC() {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const stepsRef = useRef<HTMLDivElement[]>([]);
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  const containerRef = useRef(null);
+  const stepsRef = useRef([]);
   // mobile active-content panel refs
-  const panelNumRef   = useRef<HTMLSpanElement>(null);
-  const panelTitleRef = useRef<HTMLHeadingElement>(null);
-  const panelDescRef  = useRef<HTMLParagraphElement>(null);
+  const panelNumRef   = useRef(null);
+  const panelTitleRef = useRef(null);
+  const panelDescRef  = useRef(null);
 
   useEffect(() => {
     const section = containerRef.current;
@@ -94,7 +86,7 @@ export function WhyJoinCBNCC() {
       return window.innerHeight * 0.4;
     };
 
-    const paint = (progress: number) => {
+    const paint = (progress) => {
       const offset = progress * (N - 1) * SPACING;
       const r = getRadius();
 

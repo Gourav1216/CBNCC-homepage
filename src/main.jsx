@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { WhyJoinCBNCC } from "./sections/WhyJoinCBNCC";
 import "./styles.css";
 
-createRoot(document.getElementById("root") as HTMLElement).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <main>
       <WhyJoinCBNCC />
