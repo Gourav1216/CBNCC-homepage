@@ -76,6 +76,7 @@ export function WhyJoinCBNCC() {
     if (N === 0) return;
 
     const SPACING = 360 / N;
+    let lastActiveIdx = -1;
 
     const getRadius = () => {
       if (window.innerWidth <= 1024) {
@@ -90,9 +91,10 @@ export function WhyJoinCBNCC() {
       const offset = progress * (N - 1) * SPACING;
       const r = getRadius();
 
-      let maxCloseness = -1;
       let activeIdx = 0;
+      let minD = 999999;
 
+      // First pass: locate the closest step to 0 degrees (active zone)
       for (let i = 0; i < N; i++) {
         const el = steps[i];
         if (!el) continue;
@@ -102,7 +104,24 @@ export function WhyJoinCBNCC() {
         while (a <= -180) a += 360;
         const d = Math.abs(a);
 
-        const closeness = Math.max(0, 1 - d / (SPACING / 2));
+        if (d < minD) {
+          minD = d;
+          activeIdx = i;
+        }
+      }
+
+      // Second pass: apply transforms, opacities, and active states
+      for (let i = 0; i < N; i++) {
+        const el = steps[i];
+        if (!el) continue;
+
+        let a = i * SPACING - offset;
+        while (a > 180) a -= 360;
+        while (a <= -180) a += 360;
+        const d = Math.abs(a);
+
+        // Widened closeness falloff (SPACING instead of SPACING/2) to prevent text from disappearing at midpoints
+        const closeness = Math.max(0, 1 - d / SPACING);
         const rad = (a * Math.PI) / 180;
         const x = r * Math.cos(rad);
         const y = r * Math.sin(rad);
@@ -112,21 +131,45 @@ export function WhyJoinCBNCC() {
         el.style.opacity = Math.max(0, 1 - d / 130).toFixed(3);
         el.style.setProperty("--c", closeness.toFixed(3));
 
-        if (closeness > maxCloseness) {
-          maxCloseness = closeness;
-          activeIdx = i;
+        if (i === activeIdx) {
+          el.classList.add("why-join__timeline-step--active");
+        } else {
+          el.classList.remove("why-join__timeline-step--active");
         }
       }
 
-      // Update mobile active-content panel via direct DOM (no re-render)
-      if (window.innerWidth <= 1024) {
+      // Update mobile details panel transition and text content when active index changes
+      if (activeIdx !== lastActiveIdx) {
+        const isFirstRun = lastActiveIdx === -1;
+        lastActiveIdx = activeIdx;
         const b = benefits[activeIdx];
-        if (panelNumRef.current)
-          panelNumRef.current.textContent = String(activeIdx + 1).padStart(2, "0");
-        if (panelTitleRef.current)
-          panelTitleRef.current.textContent = b.title;
-        if (panelDescRef.current)
-          panelDescRef.current.textContent = b.description;
+
+        if (window.innerWidth <= 1024) {
+          const panel = panelNumRef.current?.parentElement;
+          if (panel) {
+            panel.style.setProperty("--accent-color", `var(--color-${b.accent})`);
+            
+            if (isFirstRun) {
+              if (panelNumRef.current)
+                panelNumRef.current.textContent = String(activeIdx + 1).padStart(2, "0");
+              if (panelTitleRef.current)
+                panelTitleRef.current.textContent = b.title;
+              if (panelDescRef.current)
+                panelDescRef.current.textContent = b.description;
+            } else {
+              panel.classList.add("why-join__mobile-panel--switching");
+              setTimeout(() => {
+                if (panelNumRef.current)
+                  panelNumRef.current.textContent = String(activeIdx + 1).padStart(2, "0");
+                if (panelTitleRef.current)
+                  panelTitleRef.current.textContent = b.title;
+                if (panelDescRef.current)
+                  panelDescRef.current.textContent = b.description;
+                panel.classList.remove("why-join__mobile-panel--switching");
+              }, 150);
+            }
+          }
+        }
       }
     };
 
@@ -138,25 +181,52 @@ export function WhyJoinCBNCC() {
       return Math.max(0, Math.min(1, scrolled / range));
     };
 
-    let pending = false;
-    const tick = () => {
-      if (pending) return;
-      pending = true;
-      requestAnimationFrame(() => {
-        paint(getProgress());
-        pending = false;
-      });
+    let targetProgress = 0;
+    let currentProgress = 0;
+    let animationFrameId = null;
+
+    const paintLoop = () => {
+      const diff = targetProgress - currentProgress;
+      if (Math.abs(diff) < 0.0001) {
+        currentProgress = targetProgress;
+        paint(currentProgress);
+        animationFrameId = null;
+      } else {
+        currentProgress += diff * 0.08; // smooth liquid damping factor
+        paint(currentProgress);
+        animationFrameId = requestAnimationFrame(paintLoop);
+      }
     };
 
-    window.addEventListener("scroll", tick, { passive: true });
-    window.addEventListener("touchmove", tick, { passive: true });
-    window.addEventListener("resize", tick, { passive: true });
-    paint(0);
+    const tick = (immediate = false) => {
+      targetProgress = getProgress();
+      if (immediate) {
+        currentProgress = targetProgress;
+        paint(currentProgress);
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+      } else if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(paintLoop);
+      }
+    };
 
+    const handleScroll = () => tick(false);
+    const handleTouch = () => tick(false);
+    const handleResize = () => tick(true);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("touchmove", handleTouch, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
+    paint(0);
     return () => {
-      window.removeEventListener("scroll", tick);
-      window.removeEventListener("touchmove", tick);
-      window.removeEventListener("resize", tick);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("touchmove", handleTouch);
+      window.removeEventListener("resize", handleResize);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
   }, []);
 
@@ -228,16 +298,21 @@ export function WhyJoinCBNCC() {
           <div className="why-join__timeline-arc"></div>
 
           {/* ── Mobile active-content panel ── */}
-          <div className="why-join__mobile-panel" aria-live="polite">
+          <div 
+            className="why-join__mobile-panel" 
+            aria-live="polite"
+            style={{ "--accent-color": `var(--color-${benefits[0].accent})` }}
+          >
             <span className="m-panel-num" ref={panelNumRef}>01</span>
             <h4 className="m-panel-title" ref={panelTitleRef}>{benefits[0].title}</h4>
             <p className="m-panel-desc" ref={panelDescRef}>{benefits[0].description}</p>
           </div>
 
-          {benefits.map(({ title, description }, index) => (
+          {benefits.map(({ title, description, accent }, index) => (
             <div
               key={title}
               className="why-join__timeline-step"
+              data-accent={accent}
               ref={(el) => {
                 if (el) stepsRef.current[index] = el;
               }}

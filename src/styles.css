@@ -10,6 +10,20 @@
   --line: rgba(255, 255, 255, 0.1);
   --panel: rgba(255, 255, 255, 0.03);
   --panel-strong: rgba(255, 255, 255, 0.08);
+
+  /* Global Accent Colors */
+  --color-cyan: #06b6d4;
+  --color-cyan-rgb: 6, 182, 212;
+  --color-green: #22c55e;
+  --color-green-rgb: 34, 197, 94;
+  --color-amber: #f59e0b;
+  --color-amber-rgb: 245, 158, 11;
+  --color-violet: #8b5cf6;
+  --color-violet-rgb: 139, 92, 246;
+  --color-blue: #3b82f6;
+  --color-blue-rgb: 59, 130, 246;
+  --color-rose: #f43f5e;
+  --color-rose-rgb: 244, 63, 94;
 }
 
 * {
@@ -306,6 +320,38 @@ select {
     inset 0 0 30px rgba(255, 255, 255, 0.15);
 }
 
+/* Accent Colors definition for both timeline steps and grid cards */
+.benefit-card[data-accent="cyan"],
+.why-join__timeline-step[data-accent="cyan"] {
+  --accent-color: var(--color-cyan);
+  --accent-rgb: var(--color-cyan-rgb);
+}
+.benefit-card[data-accent="green"],
+.why-join__timeline-step[data-accent="green"] {
+  --accent-color: var(--color-green);
+  --accent-rgb: var(--color-green-rgb);
+}
+.benefit-card[data-accent="amber"],
+.why-join__timeline-step[data-accent="amber"] {
+  --accent-color: var(--color-amber);
+  --accent-rgb: var(--color-amber-rgb);
+}
+.benefit-card[data-accent="violet"],
+.why-join__timeline-step[data-accent="violet"] {
+  --accent-color: var(--color-violet);
+  --accent-rgb: var(--color-violet-rgb);
+}
+.benefit-card[data-accent="blue"],
+.why-join__timeline-step[data-accent="blue"] {
+  --accent-color: var(--color-blue);
+  --accent-rgb: var(--color-blue-rgb);
+}
+.benefit-card[data-accent="rose"],
+.why-join__timeline-step[data-accent="rose"] {
+  --accent-color: var(--color-rose);
+  --accent-rgb: var(--color-rose-rgb);
+}
+
 /* each step is a 0-size anchor; JS sets the transform */
 .why-join__timeline-step {
   position: absolute;
@@ -335,7 +381,15 @@ select {
   box-shadow: 0 0 16px rgba(255, 255, 255, 1);
   flex-shrink: 0;
   opacity: calc(0.3 + 0.7 * var(--c, 0));
-  transition: opacity 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+  transition: opacity 150ms ease, background-color 300ms ease, box-shadow 300ms ease, transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.why-join__timeline-step--active .why-join__timeline-step-dot {
+  background: var(--accent-color);
+  box-shadow: 
+    0 0 20px var(--accent-color), 
+    0 0 40px rgba(var(--accent-rgb), 0.6);
+  transform: scale(1.4);
 }
 
 .why-join__timeline-step-num {
@@ -345,12 +399,18 @@ select {
   white-space: nowrap;
   font-size: calc(48px + 48px * var(--c, 0));
   color: rgba(255, 255, 255, calc(0.3 + 0.7 * var(--c, 0)));
-  transition: font-size 150ms ease, color 150ms ease;
+  transition: font-size 150ms ease, color 300ms ease;
+}
+
+.why-join__timeline-step--active .why-join__timeline-step-num {
+  color: var(--accent-color);
 }
 
 .why-join__timeline-step-info {
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center-align flex items */
+  text-align: center;   /* Center-align text content */
   gap: 8px;
   overflow: hidden;
   opacity: var(--c, 0);
@@ -696,14 +756,14 @@ select {
     width: 110vw;
     height: 110vw;
     left: 0;            /* center-X = 0 (left edge) */
-    top: 50%;
-    /* keep existing transform: translate(-50%,-50%) → center locked at (0, 50%) */
+    top: 42%;           /* shifted up to leave room for centered text */
+    /* keep existing transform: translate(-50%,-50%) → center locked at (0, 42%) */
   }
 
   /* ── Step origin matches arc center ── */
   .why-join__timeline-step {
     left: 0;
-    top: 50%;
+    top: 42%;
   }
 
   /* ── On mobile: ONLY show the glowing dot on the arc.
@@ -733,29 +793,37 @@ select {
   }
 
   /* ══ ACTIVE CONTENT PANEL ══
-        Positioned on the right half of the screen, vertically centred.
+        Positioned centrally at the bottom of the screen.
         JS writes the active step's number/title/desc into it directly. ══ */
   .why-join__mobile-panel {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 8px;
     position: absolute;
-    /* Start just past the 55vw arc radius point, fill the rest of the screen */
-    left: 58vw;
-    top: 50%;
-    transform: translateY(-50%);
-    width: calc(100vw - 58vw - 1.25rem);
+    left: 50%;
+    top: 78%;
+    transform: translate(-50%, -50%);
+    width: 88vw;
     z-index: 10;
     pointer-events: none;
+    transition: opacity 250ms ease, transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .why-join__mobile-panel--switching {
+    opacity: 0;
+    transform: translate(-50%, -40%);
   }
 
   .m-panel-num {
     font-family: "Space Grotesk", sans-serif;
     font-weight: 900;
     font-size: clamp(32px, 10vw, 52px);
-    color: #ffffff;
+    color: var(--accent-color, #ffffff);
     line-height: 1;
     letter-spacing: -0.03em;
+    transition: color 300ms ease;
   }
 
   .m-panel-title {
@@ -766,6 +834,7 @@ select {
     line-height: 1.15;
     letter-spacing: -0.02em;
     margin: 0;
+    transition: color 300ms ease;
   }
 
   .m-panel-desc {
